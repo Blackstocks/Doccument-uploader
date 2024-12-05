@@ -1,8 +1,13 @@
+// src/components/FileUploader.tsx
 "use client";
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/navigation';
+
+type UploadError = {
+  message: string;
+};
 
 export default function FileUploader() {
   const router = useRouter();
@@ -63,7 +68,7 @@ export default function FileUploader() {
       const fileName = `${uuidv4()}.${fileExt}`;
       const accessKey = uuidv4();
 
-      const { data: uploadData, error: uploadError } = await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from('documents')
         .upload(fileName, file);
 
@@ -73,7 +78,7 @@ export default function FileUploader() {
         .from('documents')
         .getPublicUrl(fileName);
 
-      const { data: docData, error: dbError } = await supabase
+      const { error: dbError } = await supabase
         .from('documents')
         .insert([
           {
@@ -84,17 +89,16 @@ export default function FileUploader() {
             access_key: accessKey,
             comments: []
           }
-        ])
-        .select()
-        .single();
+        ]);
 
       if (dbError) throw dbError;
 
       // Immediately redirect to document view
       router.push(`/view/${accessKey}`);
 
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      const error = err as UploadError;
+      setError(error.message);
     } finally {
       setLoading(false);
     }
