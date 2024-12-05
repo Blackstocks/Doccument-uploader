@@ -1,10 +1,11 @@
 "use client";
-import { PageProps } from 'next/types';
 import DocumentViewer from '@/components/DocumentViewer';
 
-export default async function ViewPage({
-  params,
-}: PageProps<{ accessKey: string }>) {
+type Props = {
+  params: { accessKey: string };
+};
+
+export default function ViewPage({ params }: Props) {
   return (
     <main className="min-h-screen bg-gray-50">
       <DocumentViewer accessKey={params.accessKey} />
