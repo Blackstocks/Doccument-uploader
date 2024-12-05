@@ -2,19 +2,13 @@
 import DocumentViewer from "@/components/DocumentViewer";
 import { Suspense } from "react";
 
-// Define props according to Next.js 13's page requirements
 interface PageProps {
   params: {
     accessKey: string;
   };
-  searchParams: { [key: string]: string | string[] | undefined };
 }
 
-// Make it async and use Suspense for loading states
-export default async function ViewPage({
-  params,
-  searchParams,
-}: PageProps) {
+export default function ViewPage({ params }: PageProps) {
   return (
     <main className="min-h-screen bg-gray-50">
       <Suspense fallback={
@@ -28,14 +22,3 @@ export default async function ViewPage({
     </main>
   );
 }
-
-// Generate metadata for the page
-export function generateMetadata({ params }: PageProps) {
-  return {
-    title: `Document Viewer - ${params.accessKey}`,
-  };
-}
-
-// Optional: Add page generation config
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
