@@ -1,24 +1,25 @@
-// src/app/view/[accessKey]/page.tsx
-import DocumentViewer from "@/components/DocumentViewer";
-import { Suspense } from "react";
+// src/app/page.tsx
+import FileUploader from '@/components/FileUploader';
 
-interface PageProps {
-  params: {
-    accessKey: string;
-  };
-}
-
-export default function ViewPage({ params }: PageProps) {
+export default function HomePage() {
   return (
-    <main className="min-h-screen bg-gray-50">
-      <Suspense fallback={
-        <div className="animate-pulse p-4">
-          <div className="h-8 bg-gray-200 rounded w-3/4 mx-auto mb-4"></div>
-          <div className="h-4 bg-gray-200 rounded w-1/2 mx-auto"></div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 p-4 md:p-8">
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 md:p-8">
+            <h1 className="text-3xl font-bold text-white">Document Sharing</h1>
+            <p className="text-blue-100 mt-2">
+              Share your documents securely with anyone. Supports PDF, DOC, and DOCX files.
+            </p>
+          </div>
+          
+          {/* Content */}
+          <div className="p-6 md:p-8">
+            <FileUploader />
+          </div>
         </div>
-      }>
-        <DocumentViewer accessKey={params.accessKey} />
-      </Suspense>
-    </main>
+      </div>
+    </div>
   );
 }
